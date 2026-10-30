@@ -16,7 +16,8 @@ export async function loadPyodideRuntime() {
     }
     // @ts-ignore
     const py = await window.loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.2/full/" });
-    const code = await fetch("/python/nav.py").then((r) => r.text());
+    const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
+    const code = await fetch(base + "/python/nav.py").then((r) => r.text());
     await py.runPythonAsync(code);
     return py;
   })();

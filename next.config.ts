@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   assetPrefix: isPages ? "/smart-city-nav-system/" : "",
   images: { unoptimized: true },
   trailingSlash: true,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isPages ? "/smart-city-nav-system" : "",
+  },
 };
 
 export default nextConfig;

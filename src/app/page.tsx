@@ -5,6 +5,7 @@ import { Fragment, Suspense, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { NODES, EDGES } from "@/lib/graph";
+import { RouteMap } from "@/components/RouteMap";
 import { sceneState } from "@/lib/scroll-state";
 import { loadPyodideRuntime, runRoute, buildTraffic } from "@/lib/pyodide";
 
@@ -140,6 +141,7 @@ export default function Home() {
             <button onClick={() => setTrafficOn((v) => !v)} className={`rounded-full px-3 py-1 ${trafficOn?"bg-amber-400 text-[#05070d]":"border border-white/15 text-white/70"}`}>
               Traffic {trafficOn ? "on" : "off"}
             </button>
+            <button onClick={() => { compute(); document.getElementById("map")?.scrollIntoView({behavior:"smooth"}); }} className="rounded-full bg-cyan-400 px-3 py-1 text-[#05070d]">See route</button>
           </div>
           <div className="mt-4 text-sm text-slate-300">
             {computing ? "Computing…" : pyReady ? (
@@ -181,6 +183,15 @@ export default function Home() {
           <p className="mt-6 text-[15px] leading-relaxed text-slate-300/85">
             From IGI Airport to Greater Noida, Dwarka to Ghaziabad — a connected, weighted, traffic-aware network.
           </p>
+        </div>
+      </section>
+
+      <section id="map" className="relative z-10 px-6 py-12 md:px-12">
+        <div className="mx-auto max-w-5xl">
+          <p className="mb-3 text-[11px] uppercase tracking-[0.42em] text-cyan-300/70">Route map</p>
+          <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] leading-[1.05] tracking-tight [text-wrap:balance]">Your route on the map.</h2>
+          <p className="mt-4 mb-6 text-[15px] leading-relaxed text-slate-300/85">Every node on the journey, with per-leg distances and the total.</p>
+          <RouteMap route={routeInfo?.path || []} start={start} end={end} />
         </div>
       </section>
 
